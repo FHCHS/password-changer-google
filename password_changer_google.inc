@@ -270,7 +270,7 @@ class googleToken {
  
     //Get the variable get
     $result = $this->getRoleToken($role_id);
-     
+        
     //If the password_changer_google_tokens is empty
     //Return true
     if (empty($result) || $result == FALSE) {
@@ -668,17 +668,17 @@ class googleUser {
   */
   public function changeUserPassword($credentials, $attempt = 0) {
   
-   try {
-     //Get user register role id 
-     $role_id = $this->getUserRegisterRole();
-   }
-   catch( passwordChangerApiExeption $e ) {
+    try {
+      //Get user register role id 
+      $role_id = $this->getUserRegisterRole();
+    }
+    catch( passwordChangerApiExeption $e ) {
       
-     watchdog('password_changer_google', $e->getMessage(), WATCHDOG_ERROR);
+      watchdog('password_changer_google', $e->getMessage(), WATCHDOG_ERROR);
     
-     throw new passwordChangerGoogleExeption($e->getMessage());
+      throw new passwordChangerGoogleExeption($e->getMessage());
       
-   }
+    }
     
     //Generate XML file to send to Google to change password 
     //Get file path
@@ -689,16 +689,22 @@ class googleUser {
     $lenght = strlen($module_path) - strlen('password_changer_google.module');
     
     //Google XML to change password
-    $change_password_xml = file( DRUPAL_ROOT . '/' . substr($module_path, 0, $lenght) . '/password_changer_google.xml');
-    
+    $change_password_xml = file( DRUPAL_ROOT . '/' . substr($module_path, 0, $lenght) . 'password_changer_google.xml');
+  
     //Create a string out of the file
     $change_password_xml = implode( "", $change_password_xml);
     
+    
     //Replace user_name and password on the XML with current values
     foreach ($credentials AS $replacement_name => $replacement_value) {
-      $change_password_xml = str_replace($replacement_name,  $replacement_value, $change_password_xml );
-    }  
-    
+      //Check if password is the value 
+      if ($replacement_name == 'password') {
+        $replacement_value = sha1($replacement_value);
+      }
+      //Replace value
+      $change_password_xml = str_replace('user_' . $replacement_name,  $replacement_value, $change_password_xml );
+    }
+       
     //Get API URL to manage users
     $url = $this->getGoogleApiUrl();
     
@@ -710,7 +716,7 @@ class googleUser {
     fwrite($xml, $change_password_xml);
     fseek($xml, 0);
     
-    
+    //echo $url;
     //Set request options
     //Set URL
     $options = array(CURLOPT_URL => $url,
@@ -725,7 +731,12 @@ class googleUser {
     $information = '';
     
     $result = password_changer_api_simple_curl_call($url, $options, $information);
-    
+    /*echo '<pre>';
+    print_r($header);
+    print_r($information);
+    echo '</pre>';
+    exit();
+    */  
     //Check if password has been changed
     if ($information['http_code'] == 200) {
      

@@ -8,7 +8,7 @@
  <link rel='edit' type='application/atom+xml' href='https://apps-apis.google.com/a/feeds/employee.fhchs.edu/user/2.0/[user_name]'/>
  <apps:login userName='[user_name]' suspended='false' ipWhitelisted='false' admin='false' changePasswordAtNextLogin='false' agreedToTerms='true'/>
  <apps:quota limit='7168'/>
- <apps:name familyName='Rodriguez' givenName='Alejandra'/>
+ <apps:name familyName='user_last_name' givenName='user_first_name'/>
  <gd:feedLink rel='http://schemas.google.com/apps/2006#user.nicknames' href='https://apps-apis.google.com/a/feeds/employee.fhchs.edu/nickname/2.0?username=[user_name]'/>
  <gd:feedLink rel='http://schemas.google.com/apps/2006#user.emailLists' href='https://apps-apis.google.com/a/feeds/employee.fhchs.edu/emailList/2.0?recipient=[user_name]%40employee.fhchs.edu'/>
 </entry>
