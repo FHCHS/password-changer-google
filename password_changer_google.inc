@@ -110,7 +110,7 @@ class googleToken {
   if (empty($settings)) {
    
    //Log error to watchdog
-   watchdog('password_changer_google', 'There are no domains save on the Google module settings.' , WATCHDOG_ERROR);
+   watchdog('[password_changer_google_inc][getGoogleLoginCredentials]', 'There are no domains save on the Google module settings.' , WATCHDOG_ERROR);
    
    //Throw a google password changer exeption
    throw new passwordChangerGoogleExeption('There are no domains save on the Google module settings.');
@@ -132,7 +132,7 @@ class googleToken {
 
   
    //Log error to watchdon
-   watchdog('password_changer_google', 'There is no credentials define for that user type.' , WATCHDOG_ERROR);
+   watchdog('[password_changer_google_inc][getGoogleLoginCredentials]', 'There is no credentials define for that user type.' , WATCHDOG_ERROR);
     
    //Throw error to if user type is not define 
    throw new passwordChangerGoogleExeption('There is no credentials define for that user type.');   
@@ -203,7 +203,7 @@ class googleToken {
    //Check if domain is set return the domain
    if (!isset($domain['domain'])) {
     
-     watchdog('password_changer_google', 'There is no domain set for role id ' . $role_id, WATCHDOG_ERROR);
+     watchdog('[password_changer_google_inc][getRoleDomain]', 'There is no domain set for role id ' . $role_id, WATCHDOG_ERROR);
      
      throw new passwordChangerGoogleExeption('There is no domain set for role id ' . $role_id);
       
@@ -313,7 +313,7 @@ class googleToken {
    if (empty($tokens)) {
     
     //Log error to watchdog
-    watchdog('password_changer_google', 'There is no tokens save for the saved.' , WATCHDOG_INFO);
+    watchdog('[password_changer_google_inc][getRoleToken]', 'There is no tokens save for the saved.' , WATCHDOG_INFO);
     
     return FALSE;
    }
@@ -322,7 +322,7 @@ class googleToken {
    if (!isset($tokens[$role_id])) {
     
     //Log error to watchdon
-    watchdog('password_changer_google', 'Token is no save for the role id ' . $role_id . '.' , WATCHDOG_ERROR);
+    watchdog('[password_changer_google_inc][getRoleToken]', 'Token is no save for the role id ' . $role_id . '.' , WATCHDOG_ERROR);
     
     //Throw Error
     return FALSE;
@@ -389,7 +389,7 @@ class googleToken {
        }//No token return a Google error
        else {
         //Save error in watchdog
-        watchdog('password_changer_google', $result, WATCHDOG_ERROR);
+        watchdog('[password_changer_google_inc][generateGoogleToken]', $result, WATCHDOG_ERROR);
         //Throw password changer
         throw new passwordChangerGoogleExeption($result);
        }
@@ -403,7 +403,7 @@ class googleToken {
    }
    catch(Exception $e) {
      
-     watchdog('password_changer_api',$e->getMessage());
+     watchdog('[password_changer_google_inc][generateGoogleToken]',$e->getMessage());
      
      throw new passwordChangerGoogleExeption('Exeption occurd while generating Google Token.');
     
@@ -461,7 +461,7 @@ class googleUser {
       }
       catch( passwordChangerApiExeption $e ) {
        
-        watchdog('password_changer_google', $e->getMessage(), WATCHDOG_ERROR);
+        watchdog('[password_changer_google_inc][__construct]', $e->getMessage(), WATCHDOG_ERROR);
        
         throw new passwordChangerGoogleExeption($e->getMessage());
        
@@ -486,7 +486,7 @@ class googleUser {
      //Check if settings is empty throw and error
      if (empty($settings)) {
       
-        watchdog('password_changer_google', 'Their is no settings set for the Google password changer.', WATCHDOG_ERROR);
+        watchdog('[password_changer_google_inc][getUserRegisterRole]', 'Their is no settings set for the Google password changer.', WATCHDOG_ERROR);
        
        throw new passwordChangerGoogleExeption('Their is no settings set for the Google password changer.');
        
@@ -507,7 +507,7 @@ class googleUser {
         }  
       }
     }
-     watchdog('password_changer_google', 'Sorry user role does not match register roles in
+     watchdog('[password_changer_google_inc][getUserRegisterRole]', 'Sorry user role does not match register roles in
                                              the Google configuration settings.', WATCHDOG_ERROR);
     
     //If it reach here it did not find a role register that match the users roles
@@ -533,7 +533,7 @@ class googleUser {
     }
     catch( passwordChangerApiExeption $e ) {
       
-       watchdog('password_changer_google', $e->getMessage(), WATCHDOG_ERROR);
+       watchdog('[password_changer_google_inc][getGoogleApiUrl]', $e->getMessage(), WATCHDOG_ERROR);
       
        throw new passwordChangerGoogleExeption($e->getMessage());
       
@@ -554,7 +554,7 @@ class googleUser {
     }
     catch (passwordChangerGoogleExeption $e) {
      
-      watchdog('password_changer_google', 'There is not a domain define for the role ' .
+      watchdog('[password_changer_google_inc][getGoogleApiUrl]', 'There is not a domain define for the role ' .
                $this->drupalUser->roles[$role_id] . '.', WATCHDOG_ERROR);
      
       //Error there is no domain define for this user type.
@@ -582,7 +582,7 @@ class googleUser {
    return $header;
    }
    //Log error
-   watchdog('password_changer_google', 'There is not a Google token set.', WATCHDOG_ERROR);
+   watchdog('[password_changer_google_inc][generateHeader]', 'There is not a Google token set.', WATCHDOG_ERROR);
    
    //Error there is not a token set
    throw new passwordChangerGoogleExeption('There is not a Google token set.');
@@ -606,7 +606,7 @@ class googleUser {
    }
    catch( passwordChangerApiExeption $e ) {
       
-       watchdog('password_changer_google', $e->getMessage(), WATCHDOG_ERROR);
+       watchdog('[password_changer_google_inc][checkUserExist]', $e->getMessage(), WATCHDOG_ERROR);
       
        throw new passwordChangerGoogleExeption($e->getMessage());
       
@@ -674,7 +674,7 @@ class googleUser {
     }
     catch( passwordChangerApiExeption $e ) {
       
-      watchdog('password_changer_google', $e->getMessage(), WATCHDOG_ERROR);
+      watchdog('[password_changer_google_inc][changeUserPassword]', $e->getMessage(), WATCHDOG_ERROR);
     
       throw new passwordChangerGoogleExeption($e->getMessage());
       
