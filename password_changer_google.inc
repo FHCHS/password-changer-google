@@ -632,8 +632,8 @@ class googleUser {
    
    //If user is set $user->title is set
    if (isset($user->title)) {
-    
-    if ($user->title ==  $this->drupalUser->name) {
+       
+    if (strtolower($user->title) ==  strtolower($this->drupalUser->name)) {
      
      return TRUE;
     
